@@ -59,7 +59,7 @@
 				"source1 derive(ViajeId = upper(trim(ViajeId)),",
 				"          EstadoViaje = upper(trim(EstadoViaje)),",
 				"          VehiculoId = iif(startsWith(VehiculoId, 'V-'), upper(trim(VehiculoId)), concat('V-', trim(VehiculoId))),",
-				"          RutaHistoricaId = iif(startsWith(RutaHistoricaId, 'R-'), upper(trim(RutaHistoricaId)), concat('R-', lpad(replace(upper(trim(RutaHistoricaId)), 'RUTA ', ''), 2, '0')))) ~> derivedColumn1",
+				"          RutaHistoricaId = iif(isNull(RutaHistoricaId) || length(trim(toString(RutaHistoricaId))) == 0, 'R-01', iif(startsWith(RutaHistoricaId, 'R-'), upper(trim(RutaHistoricaId)), concat('R-', lpad(replace(upper(trim(RutaHistoricaId)), 'RUTA ', ''), 2, '0'))))) ~> derivedColumn1",
 				"derivedColumn1 derive(FechaServicio = iif(instr(FechaServicio, '/') > 0, toDate(FechaServicio, 'dd/MM/yyyy'), toDate(FechaServicio, 'yyyy-MM-dd')),",
 				"          ValidacionesTarjeta = iif(isNull(ValidacionesTarjeta) || length(trim(toString(ValidacionesTarjeta))) == 0, 0, toInteger(trim(toString(ValidacionesTarjeta)))),",
 				"          KmRecorridos = toDecimal(replace(trim(KmRecorridos), ',', '.'), 8, 1)) ~> derivedColumn2",
